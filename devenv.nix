@@ -18,6 +18,7 @@
     pkgs.go
     pkgs.golangci-lint
     pkgs.gotestsum
+    pkgs.gofumpt
     pkgs.delve
     pkgs.gomarkdoc
     pkgs.goreleaser

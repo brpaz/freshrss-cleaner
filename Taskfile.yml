@@ -42,6 +42,11 @@ tasks:
           --build-arg GIT_VERSION={{ .GIT_VERSION }} \
           --load \
           -t {{ .DEV_IMAGE_TAG }} .
+  fmt:
+    desc: Format the code
+    cmds:
+      - gofumpt -w .
+
   lint:
     desc: Run linter
     cmds:
