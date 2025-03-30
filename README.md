@@ -3,8 +3,8 @@
 > A command line tool to mark as read [FreshRSS](https://www.freshrss.org/) feeds and categories, based on time.
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/brpaz/freshrss-cleaner/CI.yml?style=for-the-badge)](https://github.com/brpaz/freshrss-cleaner/actions/CI.yml)
-[![GitHub License](https://img.shields.io/github/license/brpaz/freshrss-cleaner)](LICENSE)
-![go.mod Go version](https://img.shields.io/github/go-mod/go-version/brpaz/freshrss-cleaner)
+[![GitHub License](https://img.shields.io/github/license/brpaz/freshrss-cleaner?style=for-the-badge)](LICENSE)
+![go.mod Go version](https://img.shields.io/github/go-mod/go-version/brpaz/freshrss-cleaner?style=for-the-badge)
 
 
 ## 🎯 Motivation
