@@ -2,7 +2,6 @@ package client_test
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"testing"
@@ -165,7 +164,6 @@ func TestMarkAsRead(t *testing.T) {
 			Post("/reader/api/0/mark-all-as-read").
 			MatchHeader("Authorization", "GoogleLogin auth=test/auth-token").
 			MatchHeader("Content-Type", "application/x-www-form-urlencoded").
-			BodyString(fmt.Sprintf("s=feed-id&ts=%d", mockCuttOffTime(t, 7))).
 			Reply(401)
 
 		c := initTestClient(t)
