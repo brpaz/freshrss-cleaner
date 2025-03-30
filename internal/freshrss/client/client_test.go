@@ -26,11 +26,6 @@ func initTestClient(t *testing.T) *client.Client {
 	return c
 }
 
-func mockCuttOffTime(t *testing.T, days int) int64 {
-	t.Helper()
-	return time.Now().AddDate(0, 0, -days).UnixNano() / 1e3 // Microseconds
-}
-
 func TestNew(t *testing.T) {
 	t.Parallel()
 
