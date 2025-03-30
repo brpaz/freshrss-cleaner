@@ -15,11 +15,6 @@ run:
   # Default: false
   allow-serial-runners: true
 
-output:
-  formats:
-    text:
-      path: stdout
-      colors: true
 linters:
   fast: false
   disable-all: true
