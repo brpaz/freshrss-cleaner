@@ -1,0 +1,3 @@
+SID=test/auth-token
+LSID=null
+Auth=test/auth-token

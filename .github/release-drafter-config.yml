@@ -1,0 +1,94 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+categories:
+  - title: "💥 Breaking Changes"
+    labels:
+      - breaking
+  - title: "✨ Features"
+    labels:
+      - feature
+      - enhancement
+      - feat
+  - title: "🐛 Bug Fixes"
+    labels:
+      - bug
+      - fix
+  - title: "🔒 Security Updates"
+    labels:
+      - security
+  - title: "🧰 Maintenance"
+    labels:
+      - chore
+      - maintenance
+      - refactor
+  - title: "📚 Documentation"
+    labels:
+      - docs
+      - documentation
+  - title: "⬆️ Dependencies"
+    labels:
+      - deps
+      - dependencies
+      - dep
+    collapse-after: 5
+  - title: "🧪 Tests"
+    labels:
+      - test
+      - tests
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&`#@' # Escapes mentions and code blocks
+exclude-labels:
+  - "skip-changelog"
+  - "no-changelog"
+autolabeler:
+  - label: "bug"
+    branch:
+      - '/fix\/.+/'
+    title:
+      - "/fix/i"
+  - label: "feature"
+    branch:
+      - '/feat\/.+/'
+    title:
+      - "/feat/i"
+  - label: "documentation"
+    branch:
+      - '/docs\/.+/'
+    files:
+      - "*.md"
+version-resolver:
+  major:
+    labels:
+      - "breaking"
+  minor:
+    labels:
+      - "feature"
+      - "enhancement"
+      - "feat"
+  patch:
+    labels:
+      - "bug"
+      - "maintenance"
+      - "chore"
+      - "dependencies"
+      - "deps"
+      - "security"
+      - "docs"
+      - "documentation"
+      - "test"
+      - "tests"
+  default: patch
+template: |
+  ## Changes in v$RESOLVED_VERSION
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+  ## Installation
+
+  ```
+  go get github.com/$OWNER/$REPOSITORY@v$RESOLVED_VERSION
+  ```
+
+  Thanks to all contributors! 🙏

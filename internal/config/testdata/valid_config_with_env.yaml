@@ -1,0 +1,9 @@
+url: env("FRESHRSS_URL")
+username: env("FRESHRSS_USERNAME")
+password: env("FRESHRSS_PASSWORD")
+api_key: env("FRESHRSS_API_KEY")
+feeds:
+  - id: "f_164"
+    days: 7
+  - id: "f_165"
+    days: 14

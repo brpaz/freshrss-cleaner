@@ -1,0 +1,78 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+version: 2
+project_name: freshrss-cleaner
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    #- go generate ./...
+
+# ==================================
+# Build customization
+# ==================================
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X github.com/brpaz/github-notifications-cleaner/internal/version.Version={{.Version}} -X github.com/brpaz/github-notifications-cleaner/internal/version.GitCommit={{.Commit}} -X github.com/brpaz/github-notifications-cleaner/internal/version.BuildDate={{.Date}}
+
+# ==================================
+# Archive customization
+# ==================================
+archives:
+  - formats: [tar.gz]
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+# ==================================
+# Package configurations
+# ==================================
+nfpms:
+  # Template to your app's homepage.
+  # Default is empty.
+  - homepage: https://brunopaz.dev
+
+    # Your app's maintainer (probably you).
+    # Default is empty.
+    maintainer: Bruno Paz <oss@brunopaz.dev
+
+    # Template to your app's description.
+    # Default is empty.
+    description: |-
+      An template for a golang cli
+
+    # Your app's license.
+    # Default is empty.
+    license: MIT
+
+    # Formats to be generated.
+    formats:
+      - deb
+      - rpm
+      - archlinux
+
+# ==================================
+# Other configurations
+# ==================================
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"

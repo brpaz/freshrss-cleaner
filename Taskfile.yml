@@ -1,0 +1,104 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  PROJECT_NAME: freshrss-cleaner
+  BUILD_DATE:
+    sh: date -u +'%Y-%m-%dT%H:%M:%SZ'
+  GIT_COMMIT:
+    sh: git rev-parse --short HEAD 2>/dev/null || echo "unknown"
+  GIT_VERSION:
+    sh: git describe --tags --abbrev=0 2>/dev/null || echo "unknown"
+  PKG_NAME:
+    sh: awk '/^module / {print $2}' go.mod
+  DEV_IMAGE_TAG: "{{ .PROJECT_NAME }}:local-dev"
+env:
+  DOCKER_BUILDKIT: 1
+
+tasks:
+  default:
+    cmds:
+      - task -l
+
+  build:
+    desc: Build the application
+    cmds:
+      - |
+        go build \
+          -gcflags "all=-N -l" \
+          -ldflags "-s -w \
+                    -X {{ .PKG_NAME }}/cmd/version.BuildDate={{ .BUILD_DATE }} \
+                    -X {{ .PKG_NAME }}/cmd/version.GitCommit={{ .GIT_COMMIT }} \
+                    -X {{ .PKG_NAME }}/cmd/version.Version={{ .GIT_VERSION }}" \
+          -o build/{{ .PROJECT_NAME }} main.go
+  build-docker:
+    desc: Build the application using Docker
+    cmds:
+      - |
+        docker buildx build \
+          --build-arg BUILD_DATE={{ .BUILD_DATE }} \
+          --build-arg GIT_COMMIT={{ .GIT_COMMIT }} \
+          --build-arg GIT_VERSION={{ .GIT_VERSION }} \
+          --load \
+          -t {{ .DEV_IMAGE_TAG }} .
+  lint:
+    desc: Run linter
+    cmds:
+      - golangci-lint run
+
+  lint-docker:
+    desc: Lints Dockerfile
+    cmds:
+      - hadolint Dockerfile
+
+  lint-fix:
+    desc: Run linter with fix
+    cmds:
+      - golangci-lint run --fix
+
+  test:
+    desc: Run unit tests
+    cmds:
+      - |
+        mkdir -p ${REPORTS_DIR}
+        gotestsum \
+          --format testname \
+          --jsonfile reports/test-result.json -- -coverprofile=${REPORTS_DIR}/coverage.out -covermode=atomic ./...
+
+        go tool cover \
+          -html=${REPORTS_DIR}/coverage.out \
+          -o ${REPORTS_DIR}/coverage.html
+    env:
+      REPORTS_DIR: reports
+    silent: true
+
+  test-docker:
+    deps:
+      - build-docker
+    desc: Run tests against docker image
+    cmds:
+      - |
+        container-structure-test test \
+          --image {{ .DEV_IMAGE_TAG }} \
+          --config structure-test.yaml
+
+  gomod:
+    desc: Download Go modules
+    cmds:
+      - go mod download && go mod tidy
+
+  run:
+    desc: Runs the application
+    cmds:
+      - go run .
+
+  docgen:
+    desc: Generate documentation using gomarkdoc
+    cmds:
+      - gomarkdoc ./... --output docs/README.md
+
+  snapshot:
+    desc: Create a snapshot release
+    cmds:
+      - goreleaser release --snapshot --rm-dist

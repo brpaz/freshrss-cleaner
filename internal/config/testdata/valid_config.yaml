@@ -1,0 +1,8 @@
+url: https://example.com
+username: user
+password: pass
+feeds:
+  - id: "feed1"
+    days: 7
+  - id: "feed2"
+    days: 14
