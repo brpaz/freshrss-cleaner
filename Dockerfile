@@ -56,12 +56,12 @@ COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Copy binary from build stage
-COPY --from=build --chown=app:app /out/freshrss-cleaner /app/
+COPY --from=build --chown=app:app /out/freshrss-cleaner /usr/local/bin/freshrss-cleaner
 
 WORKDIR /app
 
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
-CMD ["/app/freshrss-cleaner"]
+CMD ["/usr/local/bin/freshrss-cleaner"]
 

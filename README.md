@@ -5,7 +5,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/brpaz/freshrss-cleaner/CI.yml?style=for-the-badge)](https://github.com/brpaz/freshrss-cleaner/actions/CI.yml)
 [![GitHub License](https://img.shields.io/github/license/brpaz/freshrss-cleaner?style=for-the-badge)](LICENSE)
 ![go.mod Go version](https://img.shields.io/github/go-mod/go-version/brpaz/freshrss-cleaner?style=for-the-badge)
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/brpaz/freshrss-cleaner?style=for-the-badge)](https://goreportcard.com/report/github.com/brpaz/freshrss-cleaner)
 
 ## 🎯 Motivation
 
