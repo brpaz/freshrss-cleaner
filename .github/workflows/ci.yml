@@ -198,7 +198,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Run tests
-        uses: brpaz/structure-tests-action@1.2.0
+        uses: brpaz/structure-tests-action@1.4.0
         with:
           image: ${{ env.TEST_IMAGE_TAG }}
           configFile: structure-test.yaml
