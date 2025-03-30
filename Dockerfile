@@ -1,7 +1,7 @@
 # =========================================
 # Build stage
 # =========================================
-FROM --platform=$BUILDPLATFORM golang:1.23-alpine3.21 as build
+FROM --platform=$BUILDPLATFORM golang:1.24-alpine3.21 AS build
 
 ARG TARGETOS
 ARG TARGETARCH
@@ -36,32 +36,11 @@ RUN --mount=target=. \
 # ====================================
 # Production stage
 # ====================================
-FROM alpine:3.21 as prod
-
-ENV PUID=1000
-ENV PGID=1000
-
-# Add CA certificates for HTTPS requests
-RUN apk --no-cache add ca-certificates tzdata su-exec shadow && \
-    update-ca-certificates
-
-# Create a non-root user and group
-RUN addgroup -g ${PGID} app && \
-    adduser -D -u ${PUID} -G app app && \
-    mkdir -p /app && \
-    chown app:app /app
-
-# Copy entrypoint script
-COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+FROM alpine:3.21 AS prod
 
 # Copy binary from build stage
-COPY --from=build --chown=app:app /out/freshrss-cleaner /usr/local/bin/freshrss-cleaner
+COPY --from=build /out/freshrss-cleaner /usr/local/bin/freshrss-cleaner
 
-WORKDIR /app
+ENTRYPOINT ["/usr/local/bin/freshrss-cleaner"]
 
-# Set the entrypoint
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-
-CMD ["/usr/local/bin/freshrss-cleaner"]
 

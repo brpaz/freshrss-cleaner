@@ -1,5 +1,3 @@
-# EXAMPLE USAGE:
-#
 #   Refer for explanation to following link:
 #   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
 #
@@ -18,3 +16,8 @@ pre-commit:
     docs:
       run: task docgen
       glob: "*.go"
+
+commit-msg:
+  commands:
+    lint:
+      run: commitlint

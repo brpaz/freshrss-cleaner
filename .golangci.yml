@@ -1,71 +1,71 @@
-# Golangci configurations
-# See: https://golangci-lint.run/usage/linters/
-# Options for analysis running.
+version: "2"
 run:
-  # Timeout for analysis, e.g. 30s, 5m.
-  # Default: 1m
-  timeout: 5m
-
-  # Allow multiple parallel golangci-lint instances running.
-  # If false, golangci-lint acquires file lock on start.
-  # Default: false
   allow-parallel-runners: true
-  # Allow multiple golangci-lint instances running, but serialize them around a lock.
-  # If false, golangci-lint exits with an error if it fails to acquire file lock on start.
-  # Default: false
   allow-serial-runners: true
-
+  timeout: 5m
 linters:
-  fast: false
-  disable-all: true
+  default: none
   enable:
+    - depguard
     - errcheck
-    - gosimple
+    - gocyclo
+    - gosec
     - govet
     - ineffassign
     - staticcheck
     - unused
-    - gocyclo
-    - depguard
+  settings:
+    depguard:
+      rules:
+        prevent_unmaintained_packages:
+          list-mode: lax
+          files:
+            - $all
+            - "!$test"
+          deny:
+            - pkg: io/ioutil
+              desc: "replaced by io and os packages since Go 1.16: https://tip.golang.org/doc/go1.16#ioutil"
+    gocyclo:
+      min-complexity: 10
+    gosec:
+      severity: medium
+      confidence: medium
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
     - gofmt
     - gofumpt
     - goimports
-    - gci
-    - gosec
-
-linters-settings:
-  gci:
-    sections:
-      - standard
-      - default
-      - prefix(github.com/brpaz/freshrss-cleaner)
-    skip-generated: true
-  gofmt:
-    # Simplify code: gofmt with `-s` option.
-    simplify: false
-    # Apply the rewrite rules to the source before reformatting.
-    # https://pkg.go.dev/cmd/gofmt
-    rewrite-rules:
-      - pattern: "interface{}"
-        replacement: "any"
-      - pattern: "a[b:len(a)]"
-        replacement: "a[b:]"
-  goimports:
-    # put imports beginning with prefix after 3rd-party packages;
-    # it's a comma-separated list of prefixes
-    local-prefixes: github.com/brpaz/go-lib-template
-  gocyclo:
-    min-complexity: 10
-  gosec:
-    severity: medium
-    confidence: medium
-  depguard:
-    rules:
-      prevent_unmaintained_packages:
-        list-mode: lax # allow unless explicitely denied
-        files:
-          - $all
-          - "!$test"
-        deny:
-          - pkg: io/ioutil
-            desc: "replaced by io and os packages since Go 1.16: https://tip.golang.org/doc/go1.16#ioutil"
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/brpaz/freshrss-cleaner)
+    gofmt:
+      simplify: false
+      rewrite-rules:
+        - pattern: interface{}
+          replacement: any
+        - pattern: a[b:len(a)]
+          replacement: a[b:]
+    goimports:
+      local-prefixes:
+        - github.com/brpaz/freshrss-cleaner
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

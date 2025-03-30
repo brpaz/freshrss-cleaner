@@ -1,6 +1,6 @@
 module github.com/brpaz/freshrss-cleaner
 
-go 1.21.0
+go 1.24.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
