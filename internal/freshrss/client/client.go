@@ -155,7 +155,7 @@ func (c *Client) MarkAsRead(ctx context.Context, authToken string, feedID string
 	}
 
 	// Calculate cutoff time
-	cutoffTime := time.Now().AddDate(0, 0, -olderThanDays).UnixNano() / 1000000 // Convert to milliseconds
+	cutoffTime := time.Now().AddDate(0, 0, -olderThanDays).UnixNano() / 1e3 // Microseconds
 
 	// Prepare request
 	endpoint := fmt.Sprintf("%s/reader/api/0/mark-all-as-read", c.baseURL)

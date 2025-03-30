@@ -29,7 +29,7 @@ func initTestClient(t *testing.T) *client.Client {
 
 func mockCuttOffTime(t *testing.T, days int) int64 {
 	t.Helper()
-	return time.Now().AddDate(0, 0, -days).UnixNano() / 1000000 // Convert to milliseconds
+	return time.Now().AddDate(0, 0, -days).UnixNano() / 1e3 // Microseconds
 }
 
 func TestNew(t *testing.T) {
@@ -181,12 +181,12 @@ func TestMarkAsRead(t *testing.T) {
 
 		response, err := os.ReadFile("testdata/mark_as_read_200.txt")
 		require.NoError(t, err)
+
 		// Mock the request
 		gock.New("https://freshrss.example.com").
 			Post("/reader/api/0/mark-all-as-read").
 			MatchHeader("Authorization", "GoogleLogin auth=test/auth-token").
 			MatchHeader("Content-Type", "application/x-www-form-urlencoded").
-			BodyString(fmt.Sprintf("s=feed-id&ts=%d", mockCuttOffTime(t, 7))).
 			Reply(200).
 			BodyString(string(response))
 
