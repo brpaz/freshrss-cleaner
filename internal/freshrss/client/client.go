@@ -80,7 +80,7 @@ func WithTimeout(timeout time.Duration) Option {
 // New creates a new FreshRSS client with the provided options
 func New(opts ...Option) (*Client, error) {
 	client := &Client{
-		httpClient: &http.Client{Timeout: 30 * time.Second},
+		httpClient: &http.Client{Timeout: 10 * time.Second},
 	}
 
 	for _, opt := range opts {

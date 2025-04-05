@@ -38,6 +38,8 @@ RUN --mount=target=. \
 # ====================================
 FROM alpine:3.21 AS prod
 
+RUN apk add --no-cache ca-certificates curl
+
 # Copy binary from build stage
 COPY --from=build /out/freshrss-cleaner /usr/local/bin/freshrss-cleaner
 
