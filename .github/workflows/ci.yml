@@ -92,7 +92,7 @@ jobs:
           REPORT_JSON_FILE: test-result.json
 
       - name: Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v2
         with:
           name: Unit tests
           path: test-result.xml
