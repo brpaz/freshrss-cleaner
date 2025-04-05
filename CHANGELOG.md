@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.1.1 - 2025-04-05
+
+### Changes in v0.1.1
+
+### 🐛 Bug Fixes
+
+- fix(Dockerfile): add curl @brpaz (#7)
+
+### ⬆️ Dependencies
+
+- chore(deps): update dorny/test-reporter action to v2 @[renovate[bot]](https://github.com/apps/renovate) (#6)
+
+**Full Changelog**: https://github.com/brpaz/freshrss-cleaner/compare/v0.1.0...v0.1.1
+
+### Installation
+
+```
+go get github.com/brpaz/freshrss-cleaner@v0.1.1
+
+```
+Thanks to all contributors! 🙏
+
 ## v0.1.0 - 2025-03-30
 
 ### Changes in v0.1.0
@@ -20,6 +42,7 @@
 
 ```
 go get github.com/brpaz/freshrss-cleaner@v0.1.0
+
 
 ```
 Thanks to all contributors! 🙏
