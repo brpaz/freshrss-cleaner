@@ -36,7 +36,7 @@ RUN --mount=target=. \
 # ====================================
 # Production stage
 # ====================================
-FROM alpine:3.21 AS prod
+FROM alpine:3.24 AS prod
 
 RUN apk add --no-cache ca-certificates curl
 
