@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":automergeMinor"
   ],
   "labels": [
     "dependencies"
@@ -11,14 +12,6 @@
   ],
   "minimumReleaseAge": "3 days",
   "packageRules": [
-    {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    },
     {
       "matchManagers": [
         "github-actions"
